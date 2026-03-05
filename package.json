@@ -10,7 +10,6 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "start:build": "node dist/server.js",
     "seed:sample": "node scripts/seedSampleData.js"
