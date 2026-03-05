@@ -17,6 +17,16 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: null
     },
+    author_name: {
+      type: String,
+      trim: true,
+      maxlength: 120,
+      default: null
+    },
+    images: {
+      type: [String],
+      default: []
+    },
     price: {
       type: Number,
       required: true,

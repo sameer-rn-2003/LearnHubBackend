@@ -36,6 +36,18 @@ const getAllProducts = async (req, res, next) => {
   }
 };
 
+const getAllProductsWithCategories = async (req, res, next) => {
+  try {
+    const products = await productService.getAllProducts();
+    return res.status(200).json({
+      message: "Products with categories fetched successfully",
+      data: products
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const getProductById = async (req, res, next) => {
   try {
     const product = await productService.getProductById(req.params.id);
@@ -63,6 +75,7 @@ module.exports = {
   createProduct,
   updateProduct,
   getAllProducts,
+  getAllProductsWithCategories,
   getProductById,
   deleteProduct
 };

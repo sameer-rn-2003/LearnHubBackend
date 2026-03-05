@@ -18,6 +18,7 @@ const getCategoriesByIds = async (categoryIds = []) => {
   if (categories.length !== uniqueCategoryIds.length) {
     const error = new Error("One or more category IDs are invalid");
     error.statusCode = 400;
+    console.log("getcategory, :", error)
     throw error;
   }
 
@@ -73,9 +74,15 @@ const attachCategoriesToProducts = async (products) => {
   });
 };
 
-const createProduct = async ({ name, description, price, categoryIds = [] }) => {
+const createProduct = async ({ name, description, author_name, images = [], price, categoryIds = [] }) => {
   const categories = await getCategoriesByIds(categoryIds);
-  const product = await Product.create({ name, description, price: Number(price) });
+  const product = await Product.create({
+    name,
+    description,
+    author_name,
+    images,
+    price: Number(price)
+  });
 
   await setProductCategories(
     product._id,
@@ -86,7 +93,7 @@ const createProduct = async ({ name, description, price, categoryIds = [] }) => 
   return enrichedProduct;
 };
 
-const updateProduct = async (id, { name, description, price, categoryIds }) => {
+const updateProduct = async (id, { name, description, author_name, images, price, categoryIds }) => {
   const product = await Product.findById(id);
   if (!product) {
     const error = new Error("Product not found");
@@ -97,6 +104,8 @@ const updateProduct = async (id, { name, description, price, categoryIds }) => {
   const payload = {};
   if (typeof name !== "undefined") payload.name = name;
   if (typeof description !== "undefined") payload.description = description;
+  if (typeof author_name !== "undefined") payload.author_name = author_name;
+  if (typeof images !== "undefined") payload.images = images;
   if (typeof price !== "undefined") payload.price = Number(price);
 
   if (Object.keys(payload).length) {
